@@ -1,0 +1,24 @@
+{
+  "name" : "LocalConfirmLog",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "txNo",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "createTime",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "",
+  "savePath" : "./bank1/src/main/java/com/yidiandian",
+  "saveModelName" : "bank2"
+}

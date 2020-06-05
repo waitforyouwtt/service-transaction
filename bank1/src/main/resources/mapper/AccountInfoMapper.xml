@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.AccountInfoDao">
+
+    <resultMap type="com.yidiandian.entity.AccountInfo" id="AccountInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
+        <result property="accountNo" column="account_no" jdbcType="VARCHAR"/>
+        <result property="accountPassword" column="account_password" jdbcType="VARCHAR"/>
+        <result property="accountBalance" column="account_balance" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AccountInfoMap">
+        select
+          id, account_name, account_no, account_password, account_balance
+        from bank_transaction.account_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AccountInfoMap">
+        select
+          id, account_name, account_no, account_password, account_balance
+        from bank_transaction.account_info
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AccountInfoMap">
+        select
+          id, account_name, account_no, account_password, account_balance
+        from bank_transaction.account_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="accountName != null and accountName != ''">
+                and account_name = #{accountName}
+            </if>
+            <if test="accountNo != null and accountNo != ''">
+                and account_no = #{accountNo}
+            </if>
+            <if test="accountPassword != null and accountPassword != ''">
+                and account_password = #{accountPassword}
+            </if>
+            <if test="accountBalance != null">
+                and account_balance = #{accountBalance}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into bank_transaction.account_info(account_name, account_no, account_password, account_balance)
+        values (#{accountName}, #{accountNo}, #{accountPassword}, #{accountBalance})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bank_transaction.account_info
+        <set>
+            <if test="accountName != null and accountName != ''">
+                account_name = #{accountName},
+            </if>
+            <if test="accountNo != null and accountNo != ''">
+                account_no = #{accountNo},
+            </if>
+            <if test="accountPassword != null and accountPassword != ''">
+                account_password = #{accountPassword},
+            </if>
+            <if test="accountBalance != null">
+                account_balance = #{accountBalance},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bank_transaction.account_info where id = #{id}
+    </delete>
+
+    <!--更新账户金额-->
+    <update id="updateAccountBalance">
+        update bank_transaction.account_info  set account_balance = account_balance+#{amount}
+         where account_no=#{accountNo}
+    </update>
+
+</mapper>

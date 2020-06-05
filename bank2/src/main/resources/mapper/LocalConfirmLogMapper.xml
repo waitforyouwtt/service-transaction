@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidiandian.dao.LocalConfirmLogDao">
+
+    <resultMap type="com.yidiandian.entity.LocalConfirmLog" id="LocalConfirmLogMap">
+        <result property="txNo" column="tx_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LocalConfirmLogMap">
+        select
+          tx_no, create_time
+        from bank_transaction.local_confirm_log
+        where tx_no = #{txNo}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LocalConfirmLogMap">
+        select
+          tx_no, create_time
+        from bank_transaction.local_confirm_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LocalConfirmLogMap">
+        select
+          tx_no, create_time
+        from bank_transaction.local_confirm_log
+        <where>
+            <if test="txNo != null and txNo != ''">
+                and tx_no = #{txNo}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="txNo" useGeneratedKeys="true">
+        insert into bank_transaction.local_confirm_log(create_time)
+        values (#{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bank_transaction.local_confirm_log
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where tx_no = #{txNo}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bank_transaction.local_confirm_log where tx_no = #{txNo}
+    </delete>
+
+</mapper>
